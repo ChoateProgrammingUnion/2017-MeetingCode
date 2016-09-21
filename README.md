@@ -1,2 +1,4 @@
-# meetingcode
-Meeting code, currently on year 2016-2017
+# Meeting Code
+This is the repository for code that we write during meetings.
+
+Sept 20: physics
