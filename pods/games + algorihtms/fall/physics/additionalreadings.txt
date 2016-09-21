@@ -1,0 +1,23 @@
+Here are some additional readings if you're interested.
+Physics engines:
+- http://buildnewgames.com/gamephysics/
+	- pay close attention to the phrase "integration"/"integrator"
+- http://box2d.org/
+	- box2d has been implemented in pretty much every language
+	- look at it if you're more interested in using proven engines
+
+Vector fields: 
+- http://mathinsight.org/vector_field_overview
+- Wikipedia
+	- Google anything if you're confused, or ask me.
+- Pay close attention to the following vector fields:
+	- f(x,y) = (y, -x)/(x^2+y^2)
+		- AKA typical path-dependent irrotational vector field
+		- see https://en.wikipedia.org/wiki/Conservative_vector_field#Irrotational_vector_fields
+	- f(x,y) = (x, y)/(||(x, y)||^3)
+		- AKA the gravitational vector field
+
+
+
+And, since I'm a total sellout, you can poke around at my code on http://alanluo.com
+
