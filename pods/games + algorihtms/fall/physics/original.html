@@ -1,0 +1,106 @@
+<html>
+<head>
+	<title>Particle Sim</title>
+	<style type="text/css">
+	canvas {
+		border:1px solid black;
+	}
+	</style>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600"></canvas>
+
+
+<script type="text/javascript">
+//get canvas from page
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+
+//radius of each particle
+var radius = 10;
+var particles = []; //create particle array
+
+ctx.fillStyle="red"; //change fill style 
+
+function initParticles() { //initialize the particles (only run once)
+	maxCols = 800/50-1; //subtract one since we don't want to draw one in the corner
+	maxRows = 600/50-1;
+	for(var i=1; i<=maxRows; i++) {
+		for(var j=1; j<=maxCols; j++) {
+			var particle = {
+				x: 50*j,
+				y: 50*i,
+				vx: 0,
+				vy: 0,
+				ax: 0,
+				ay: 0
+			}; //accessed via particle.x, particle.y, etc
+
+			particles.push(particle); //add the particle to our particle array
+
+		}
+	}
+}
+
+function drawParticles() { //iterate through all the particles and draw them
+	for(var i=0; i<particles.length; i++) {
+		ctx.beginPath();
+		ctx.arc(particles[i].x, particles[i].y, radius, 0, 2 * Math.PI, false); //draws a circle
+		ctx.fill();
+		ctx.stroke();
+	}
+}
+function calculate() { //apply calculations to particle objects
+	for(var i=0; i<particles.length; i++) {
+		//add the acceleration to the velocity
+		particles[i].vx+=particles[i].ax;
+		particles[i].vy+=particles[i].ay;
+
+		//add the velocity to the position
+		particles[i].x+=particles[i].vx;
+		particles[i].y+=particles[i].vy;
+
+		//horizontally out of bounds
+		if(particles[i].x>800 || particles[i].x<0) {
+			particles[i].vx*=-1;
+		}
+		if(particles[i].y>600 || particles[i].y<0) {
+			particles[i].vy*=-1;
+		}
+
+//////////// edit this if you want to play with interesting things /////////////
+		//apply a force field
+		originx = 400;
+		originy = 300;
+		delx = particles[i].x-originx;
+		dely = particles[i].y-originy;
+		fradius = Math.sqrt(Math.pow(delx,2)+Math.pow(dely,2))+0.001;
+		
+		particles[i].ax+=delx/Math.pow(fradius, 3);
+		particles[i].ay+=dely/Math.pow(fradius, 3);
+	}
+}
+
+function reDraw() {
+	ctx.clearRect(0, 0, 800, 600);
+	drawParticles();
+}
+
+//set up animation loop
+function init() { //start the loop
+	initParticles(); //set up the particles
+	window.requestAnimationFrame(draw);
+}
+
+function draw() { //this function runs 60 times a second
+	calculate();
+	reDraw();
+	window.setTimeout(window.requestAnimationFrame(draw), 1000 / 60);
+}
+
+init();
+
+
+</script>
+</body>
+</html>
